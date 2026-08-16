@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+      - 'feature/**'
+
+  pull_request:
+    branches:
+      - main
 
 jobs:
   hello-ci:
@@ -22,6 +27,7 @@ jobs:
           echo "Repositorio: ${{ github.repository }}"
           echo "Rama: ${{ github.ref_name }}"
           echo "Commit: ${{ github.sha }}"
+          echo "Evento: ${{ github.event_name }}"
           echo "================================"
 
       - name: Mostrar fecha y hora
