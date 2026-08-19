@@ -30,7 +30,7 @@ class WebapiApplicationTests {
 		MockMvc.perform(get("/health")
 				.accept(MediaType.TEXT_PLAIN))
 			.andExpect(status().isOk())
-			.andExpect(content().string("Server Healthy!"));
+			.andExpect(content().string("Server NOT Healthy!"));
 	}
 
 	@Test
