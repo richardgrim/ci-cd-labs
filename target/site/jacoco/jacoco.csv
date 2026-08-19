@@ -1,0 +1,6 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+,com.cicd.webapi,DateController,0,7,0,0,0,2,0,2,0,2
+,com.cicd.webapi,HelloController,2,3,0,0,1,1,1,1,1,1
+,com.cicd.webapi,WebapiApplication,5,3,0,0,2,1,1,1,1,1
+,com.cicd.webapi,HealthController,0,5,0,0,0,2,0,2,0,2
+,com.cicd.webapi,Calculator,0,28,0,2,0,7,0,6,0,5
