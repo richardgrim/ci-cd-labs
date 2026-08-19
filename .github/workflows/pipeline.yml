@@ -38,10 +38,10 @@ jobs:
           echo "================================"
 
       - name: Compilar aplicación
-        run: ./mvnw --batch-mode clean compile -DskipTests
+        run: mvn --batch-mode clean compile -DskipTests
 
       - name: Ejecutar pruebas y generar cobertura
-        run: ./mvnw --batch-mode verify
+        run: mvn --batch-mode verify
 
       - name: Publicar reporte de pruebas
         if: always()
