@@ -1,0 +1,5 @@
+com\cicd\webapi\HelloController.class
+com\cicd\webapi\HealthController.class
+com\cicd\webapi\Calculator.class
+com\cicd\webapi\WebapiApplication.class
+com\cicd\webapi\DateController.class

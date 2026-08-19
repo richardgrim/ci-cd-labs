@@ -1,4 +1,4 @@
-name: Primer Pipeline CI
+name: CI Pipeline
 
 on:
   push:
@@ -19,10 +19,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
       - name: Mostrar información del entorno
         run: |
           echo "================================"
-          echo "      PRIMER PIPELINE CI"
+          echo "        PIPELINE CI/CD"
           echo "================================"
           echo "Repositorio: ${{ github.repository }}"
           echo "Rama: ${{ github.ref_name }}"
@@ -30,11 +37,27 @@ jobs:
           echo "Evento: ${{ github.event_name }}"
           echo "================================"
 
-      - name: Mostrar fecha y hora
-        run: date
+      - name: Compilar aplicación
+        run: ./mvnw --batch-mode clean compile -DskipTests
 
-      - name: Mostrar versión de Git
-        run: git --version
+      - name: Ejecutar pruebas y generar cobertura
+        run: ./mvnw --batch-mode verify
+
+      - name: Publicar reporte de pruebas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: target/surefire-reports/
+          if-no-files-found: warn
+
+      - name: Publicar reporte de cobertura
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: target/site/jacoco/
+          if-no-files-found: warn
 
       - name: Finalizar pipeline
         run: echo "Pipeline ejecutado correctamente."
