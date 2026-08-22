@@ -40,8 +40,11 @@ jobs:
       - name: Compilar aplicación
         run: mvn --batch-mode clean compile -DskipTests
 
-      - name: Ejecutar pruebas y generar cobertura
-        run: mvn --batch-mode verify
+      - name: Run tests with Maven
+        run: mvn -B test --file pom.xml
+
+      - name: Run Code Coverage with Maven
+        run: mvn -B test jacoco:report --file pom.xml
 
       - name: Publicar reporte de pruebas
         if: always()
