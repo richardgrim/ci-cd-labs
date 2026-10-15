@@ -1,0 +1,22 @@
+trigger:
+- main
+
+pr:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: Maven@4
+  displayName: 'Compilar y ejecutar pruebas con Java 21'
+  inputs:
+    mavenPOMFile: 'pom.xml'
+    goals: 'clean verify'
+    options: '--batch-mode --no-transfer-progress'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.21'
+    jdkArchitectureOption: 'x64'
+    mavenVersionOption: 'Default'
