@@ -1,3 +1,4 @@
+# Validate main and pull requests with Maven and Java 21.
 trigger:
 - main
 
