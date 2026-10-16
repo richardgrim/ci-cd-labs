@@ -21,3 +21,19 @@ steps:
     jdkVersionOption: '1.21'
     jdkArchitectureOption: 'x64'
     mavenVersionOption: 'Default'
+
+- bash: |
+    set -euo pipefail
+    shopt -s nullglob
+    jars=(target/*.jar)
+    if [ "${#jars[@]}" -ne 1 ]; then
+      echo "Se esperaba exactamente un JAR ejecutable en target."
+      exit 1
+    fi
+    mkdir -p "$(Build.ArtifactStagingDirectory)/webapi"
+    cp "${jars[0]}" "$(Build.ArtifactStagingDirectory)/webapi/app.jar"
+  displayName: 'Preparar JAR para despliegue local'
+
+- publish: '$(Build.ArtifactStagingDirectory)/webapi'
+  artifact: webapi
+  displayName: 'Publicar aplicacion compilada'
