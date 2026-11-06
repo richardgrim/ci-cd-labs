@@ -1,0 +1,6 @@
+name: richardgrim-labs-local
+services:
+  webapi:
+    image: ${WEBAPI_IMAGE:?WEBAPI_IMAGE must identify the release}
+    ports:
+      - "127.0.0.1:8080:8080"
