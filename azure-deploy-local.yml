@@ -1,0 +1,42 @@
+# Requires approval and branch-control checks on the docker-local-lab pool.
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+  - pipeline: ci
+    source: richardgrim.ci-cd-labs
+    branch: refs/heads/main
+    trigger:
+      branches:
+        include:
+        - main
+
+stages:
+- stage: DeployLocal
+  displayName: 'Desplegar en Docker local'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['resources.pipeline.ci.sourceBranch'], 'refs/heads/main'))
+  jobs:
+  - deployment: DockerLocal
+    environment: docker-local
+    pool:
+      name: docker-local-lab
+      demands:
+      - Agent.Name -equals richard-docker-local
+    timeoutInMinutes: 15
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+            persistCredentials: false
+          - download: none
+          - download: ci
+            artifact: webapi
+          - task: PowerShell@2
+            displayName: 'Actualizar contenedor y verificar salud'
+            inputs:
+              targetType: filePath
+              filePath: deploy/deploy-local.ps1
+              arguments: '-ArtifactPath "$(Pipeline.Workspace)/ci/webapi/app.jar" -ReleaseId "$(Build.BuildId)"'
+              pwsh: false
