@@ -1,0 +1,66 @@
+{
+  "item": [
+    {
+      "name": "Inicio",
+      "request": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Respuesta esperada\", function () { pm.expect(pm.response.text()).to.eql(\"Hello CI/CD World!\"); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Salud",
+      "request": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/health"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Respuesta esperada\", function () { pm.expect(pm.response.text()).to.eql(\"Server Healthy!\"); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fecha",
+      "request": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/date"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Respuesta esperada\", function () { pm.expect(pm.response.text()).to.match(/^Current Server Date: \\d{4}-\\d{2}-\\d{2}$/); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ],
+  "info": {
+    "name": "CI-CD Labs - Docker local",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  }
+}
+
