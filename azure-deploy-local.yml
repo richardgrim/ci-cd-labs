@@ -40,3 +40,28 @@ stages:
               filePath: deploy/deploy-local.ps1
               arguments: '-ArtifactPath "$(Pipeline.Workspace)/ci/webapi/app.jar" -ReleaseId "$(Build.BuildId)"'
               pwsh: false
+          - task: NodeTool@0
+            displayName: 'Preparar Node.js para Postman'
+            inputs:
+              versionSpec: '22.x'
+          - task: PowerShell@2
+            displayName: 'Probar API con Postman/Newman'
+            inputs:
+              targetType: inline
+              pwsh: false
+              script: |
+                $results = "$(Agent.TempDirectory)/postman-$(Build.BuildId)-$(System.JobAttempt)"
+                New-Item -ItemType Directory -Force -Path $results | Out-Null
+                npx.cmd --yes newman@6.2.1 run tests/postman/docker-local.json --timeout-request 10000 --reporters cli,junit --reporter-junit-export "$results/results.xml"
+                exit $LASTEXITCODE
+          - task: PublishTestResults@2
+            displayName: 'Publicar resultados de Postman'
+            condition: succeededOrFailed()
+            inputs:
+              testResultsFormat: JUnit
+              searchFolder: '$(Agent.TempDirectory)/postman-$(Build.BuildId)-$(System.JobAttempt)'
+              testResultsFiles: results.xml
+              testRunTitle: 'Postman Docker local - $(Build.BuildNumber)'
+              failTaskOnFailedTests: true
+              failTaskOnFailureToPublishResults: true
+              failTaskOnMissingResultsFile: true
