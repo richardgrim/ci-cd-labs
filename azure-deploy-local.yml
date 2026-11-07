@@ -40,10 +40,10 @@ stages:
               filePath: deploy/deploy-local.ps1
               arguments: '-ArtifactPath "$(Pipeline.Workspace)/ci/webapi/app.jar" -ReleaseId "$(Build.BuildId)"'
               pwsh: false
-          - task: NodeTool@0
+          - task: UseNode@1
             displayName: 'Preparar Node.js para Postman'
             inputs:
-              versionSpec: '22.x'
+              version: '22.x'
           - task: PowerShell@2
             displayName: 'Probar API con Postman/Newman'
             inputs:
