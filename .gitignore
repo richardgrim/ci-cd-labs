@@ -1,0 +1,15 @@
+# Maven build output and generated reports
+/target/
+
+# Local environment configuration (keep documented examples)
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Local editor and operating system files
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
